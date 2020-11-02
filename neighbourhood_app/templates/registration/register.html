@@ -1,0 +1,46 @@
+{%include 'base.html'%}
+<!-- {%load static%} -->
+{%load bootstrap4%}
+
+
+<h1>Register:</h1>
+
+<div class="container ">
+<div class="row">
+  <div class="col-md-3"></div>
+  <div class="col-md-6">
+  
+    
+    <form method ="POST" action="" class="form-group" >
+
+      {% csrf_token %}
+      <div class="card">
+        <div class="form-control">
+          {{form.username.label}}
+          {{form.username}}
+        </div>
+        <div class="form-control">
+          {{form.email.label}}
+          {{form.email}}
+        </div>
+        <div class="form-control">
+          {{form.password1.label}}
+          {{form.password1}}
+        </div>
+        <div class="form-control">
+          {{form.password2.label}}
+          {{form.password2}}
+        </div>
+        <div class="form-control"></div>
+   
+        <input class="btn btn-amber" type="submit" name= "Create user">
+
+      </div>
+ 
+    </form>
+  </div>
+  <div class="col-md3"></div>
+</div>
+       
+      
+</div>

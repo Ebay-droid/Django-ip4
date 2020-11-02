@@ -18,15 +18,19 @@
 <!-- metro cdn -->
 <!-- <link rel="stylesheet" href="https://cdn.metroui.org.ua/v4.3.2/css/metro-all.min.css"> -->
 <!-- css -->
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+
 <link rel="stylesheet" href="{%static 'css/styles.css'%}">
-<link rel="stylesheet" href="{%static 'css/details.css'%}">
   {%endblock%}
 </head>
 <body>
   {%include 'navbar.html'%}
+
   {%block script%}
   <!-- JQuery -->
-<script type="text/javascript" src="{%static 'js/details.js'%}"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <!-- Bootstrap tooltips -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
