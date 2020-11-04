@@ -84,9 +84,10 @@ def user_profile(request, username):
 
 @login_required(login_url='login')
 # @allowed_user(allowed_roles=['user','admin'])
-def hood_details(request):
-  neighbourhood = Neighbourhood.objects.all()
-  
+def hood_details(request,neighbourhood_id):
+  neighbourhood= get_object_or_404(Neighbourhood,pk=neighbourhood_id)
+  business
+  # hood_dets = Neighbourhood.objects.filter(id=neighbourhood)
   return render (request, 'neighbourhood_details.html',{'hood':neighbourhood})
   
 @login_required  
