@@ -4,7 +4,7 @@ from django.http import  HttpResponse, HttpResponseRedirect
 from django.contrib.auth.forms import  UserCreationForm
 from  django.contrib.auth import login,logout, authenticate
 from django.contrib import messages
-from django.contrib.auth.models import Group
+from django.contrib.auth.models import Group,User
 from django.contrib.auth.decorators import login_required
 from .decorators import unauthenticated_user,allowed_user
 # Create your views here.
@@ -40,7 +40,7 @@ def loginPage(request):
     
     if user is not None:
       login(request, user)
-      return redirect('index')
+      return HttpResponseRedirect(reverse('user_profile', args=[username]))
     else:
       messages.info(request, "The user exists not")
       
@@ -52,30 +52,44 @@ def logoutUser(request):
   return redirect('login')
 
 
+# @unauthenticated_user
+# @allowed_user(allowed_roles=['__all__'])
 @login_required(login_url='login')
-@allowed_user(allowed_roles=['admin'])
 def index(request):
   return render(request,'index.html')
 
-def userPage(request):
-  context = {}
+
+@login_required(login_url='login')
+@allowed_user(allowed_roles=['user'])
   
-  return render(request,'user.html', context)  
-
-# def update_profile(request, username):
-#   user = get_object_or_404(User,username=username)  
-#   new_user = request.user
-#   if request.method == 'POST':
+def user_profile(request, username):
+  user = get_object_or_404(User,username=username)  
+  new_user = request.user
+  if request.method == 'POST':
     
-#     form = ProfileForm(request.POST, request.FILES)
-#     if form.is_valid():
-#       profile = form.save(commit=False)
-#       profile.user = new_user
-#       profile.save()
+    form = ProfileForm(request.POST, request.FILES)
+    if form.is_valid():
+      profile = form.save(commit=False)
+      profile.user = new_user
+      profile.save()
       
-#       return HttpResponseRedirect(reverse('profile', args=[username]))
-#     else:
-#       form = ProfileForm()
+      # return redirect(request,'profile.html')
+      return HttpResponseRedirect(reverse('profile.html', args=[username]))
+    else:
+      form = ProfileForm()
     
-#   return render(request, 'new_profile.html',{'user':user,'form':ProfileForm})   
+  return render(request, 'new_profile.html',{'user':user,'form':ProfileForm})   
 
+@login_required(login_url='login')
+@allowed_user(allowed_roles=['user','admin'])
+def hood_details(request):
+  
+  return render (request, 'neighbourhood_details.html')
+  
+@login_required  
+def profile(request,username):
+  user = get_object_or_404(User,username=username)
+  profile = Profile.objects.get(user=user)
+
+  
+  return render(request, 'profile.html',{'user':user,'profile':profile}) 

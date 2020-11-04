@@ -4,18 +4,24 @@ from cloudinary.models import CloudinaryField
 from django.contrib.auth.models import User
 # Create your models here.
 
-# class Admin(models.Model):
-#   name = models.CharField(max_length=20)
   
 
 
 class Neighbourhood(models.Model):
-  name = models.CharField(max_length=200)
-  contacts_health = models.CharField(max_length=200)
-  contacts_police =models.CharField(max_length=200)
-  # occupants =models.ForeignKey(User,on_delete=models.CASCADE)
-  occupants_count =models.IntegerField()
-  # admin = models.ForeignKey(Admin,on_delete=models.CASCADE)
+  CHOICES = (
+    (' Kikuyu ', 'Kikuyu'),
+    ('Dago', 'Dagoretti'),
+    ('Karen', 'Karen'),
+    ('Kabete', 'Kabete'),
+    ('Kasarani', 'Kasarani'),
+    ('Rongai', 'Rongai'),
+    ('Westie', 'Westland'),
+    ('Parkie', 'Parkland'),
+  )
+  name = models.CharField(max_length=200,choices=CHOICES)
+  location = models.CharField(max_length=200)
+  occupants_count =models.AutoField(primary_key=True)
+  admin = models.ForeignKey(User, on_delete=models.CASCADE, related_name='admin_name', default=1)
   def save_neighbourhood(self):
     self.save()
   
@@ -23,22 +29,12 @@ class Neighbourhood(models.Model):
     self.delete()
     
   def find_by_id(self,pk):
-    self.objects.get(pk=pk)
-    
+    hood =self.objects.get(pk=pk)
+    return Neighbourhood.objects.filter(name=hood)
   
   def __str__(self):
     return self.name        
-    
-  
-class  Occupant(models.Model):
-  user = models.OneToOneField(User,on_delete=models.CASCADE,default='',null=True)
-  id =models.AutoField(primary_key=True)
-  name =models.CharField(max_length=20)
-  email =models.EmailField()
-  neighbourhood = models.ForeignKey(Neighbourhood,on_delete=models.CASCADE)  
-  
-  def __str__(self):
-    return self.name  
+     
   
   
 class Business(models.Model) :
@@ -54,21 +50,29 @@ class Business(models.Model) :
     self.delete()
     
   def find_by_id(self,pk):
-    self.objects.get(pk=pk)
+    biz = self.objects.get(pk=pk)
+    return Business.objects.filter(name=biz)
+    
     
   def __str__(self):
     return self.name  
   
-# class  Profile(models.Model):
-#   profile_pic = CloudinaryField('image')
-#   Bio = models.TextField()
-#   email = models.EmailField()
-#   phone_number = models.IntegerField(null=True)
-#   user = models.ForeignKey(User,on_delete=models.CASCADE,default='')
+  @classmethod
+  def search_business(cls,search_term):
+      biz = Business.objects.filter(name__icontains=search_term)
+      return biz
   
+class  Profile(models.Model):
+  profile_pic = CloudinaryField('image')
+  Bio = models.TextField()
+  email = models.EmailField()
+  phone_number = models.IntegerField(null=True)
+  user = models.ForeignKey(User,on_delete=models.CASCADE,default='')
+  neighbourhood = models.ForeignKey(Neighbourhood,on_delete=models.CASCADE,default='')  
+
   
-#   def __str__(self):
-#     return self.user.name
+  def __str__(self):
+    return self.user.username
   
-#   def save_profile(self):
-#     self.save()
+  def save_profile(self):
+    self.save()
