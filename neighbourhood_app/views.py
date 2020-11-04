@@ -61,9 +61,9 @@ def logoutUser(request):
 # @allowed_user(allowed_roles=['__all__'])
 @login_required(login_url='login')
 def index(request):
-  neighbourhood = Neighbourhood.objects.all()
+  profile = Profile.objects.get(user=request.user) 
   
-  return render(request,'index.html',{'hood':neighbourhood})
+  return render(request,'index.html',{'profile':profile})
 
 
 @login_required(login_url='login')
@@ -95,17 +95,27 @@ def user_profile(request, username):
 
 @login_required(login_url='login')
 # @allowed_user(allowed_roles=['user','admin'])
-def hood_details(request,neighbourhood_id):
-  neighbourhood= get_object_or_404(Neighbourhood,pk=neighbourhood_id)
-  business = Business.objects.filter(id =neighbourhood)
-  # hood_dets = Neighbourhood.objects.filter(id=neighbourhood)
-  return render (request, 'neighbourhood_details.html',{'hood':neighbourhood,'business':business})
+def hood_details(request,neighbourhood_name):
+  neighbourhood= get_object_or_404(Neighbourhood,name=neighbourhood_name)
+  posts = Post.objects.filter(neighbourhood = neighbourhood)
+  if request.method == 'POST':
+    form = PostForm(request.POST, request.FILES)
+    if form.is_valid():
+      post = form.save(commit=False)
+      post.neighbourhood = neighbourhood
+      
+      post.save()
+      
+      return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+      
+    
+  return render (request, 'neighbourhood_details.html',{'hood':neighbourhood,'form':PostForm,'posts':posts})
   
 @login_required  
 def profile(request,username):
   user = get_object_or_404(User,username=username)
   profile = Profile.objects.get(user=user)
-
+  
   
   return render(request, 'profile.html',{'user':user,'profile':profile}) 
 

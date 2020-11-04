@@ -75,3 +75,15 @@ class  Profile(models.Model):
   
   def save_profile(self):
     self.save()
+    
+    
+class Post(models.Model):
+  post = models.CharField(max_length=300)
+  neighbourhood = models.ForeignKey(Neighbourhood,on_delete=models.CASCADE,)    
+  image = CloudinaryField('images')
+  profile = models.ForeignKey(Profile,on_delete=models.CASCADE,default='')
+
+
+  def __str__(self):
+    return self.user.username
+  
