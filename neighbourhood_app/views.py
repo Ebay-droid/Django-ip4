@@ -16,18 +16,23 @@ def registerPage(request):
     form = CreateUserForm(request.POST)
     if form.is_valid():
       user = form.save()
-      username = form.cleaned_data.get('username')
+      # username = form.cleaned_data.get('username')
+      raw_password = form.cleaned_data.get('password1')
+      user = authenticate(username=user.username, password=raw_password)
+      login(request, user)
+      # group = Group.objects.get(name = "user")
+      # user.groups.add(group)
       
-      group = Group.objects.get(name = "user")
-      user.groups.add(group)
-      
-      messages.success(request,"Account created for" + username)
-      return redirect('login')
+      # messages.success(request,"Account created for" + username)
+      return redirect('welcome')
   
   
   context = {'form':form}
   return render(request,'registration/register.html', context)
 
+
+def welcome(request):
+  return render(request,'welcome.html')
 
 @unauthenticated_user
 def loginPage(request):
@@ -66,29 +71,35 @@ def index(request):
   
 def user_profile(request, username):
   user = get_object_or_404(User,username=username)  
-  new_user = request.user
+  # new_user = request.user
   if request.method == 'POST':
     
     form = ProfileForm(request.POST, request.FILES)
-    if form.is_valid():
+    form_b = NeighbourhoodForm(request.POST)
+    if form.is_valid() and form_b.is_valid():
+      data = form_b.save()
       profile = form.save(commit=False)
-      profile.user = new_user
+      profile.user = request.user
+      profile.neighbourhood = data
       profile.save()
       
-      # return redirect(request,'profile.html')
-      return HttpResponseRedirect(reverse('profile.html', args=[username]))
-    else:
-      form = ProfileForm()
-    
-  return render(request, 'new_profile.html',{'user':user,'form':ProfileForm})   
+      
+      # profile = Profile.objects.get(user=user)
+      
+      return redirect('/')
+  else:
+    form = ProfileForm()
+    form_b = NeighbourhoodForm()
+      
+  return render(request, 'new_profile.html',{'user':user,'form':ProfileForm, 'form_b':NeighbourhoodForm})   
 
 @login_required(login_url='login')
 # @allowed_user(allowed_roles=['user','admin'])
 def hood_details(request,neighbourhood_id):
   neighbourhood= get_object_or_404(Neighbourhood,pk=neighbourhood_id)
-  business
+  business = Business.objects.filter(id =neighbourhood)
   # hood_dets = Neighbourhood.objects.filter(id=neighbourhood)
-  return render (request, 'neighbourhood_details.html',{'hood':neighbourhood})
+  return render (request, 'neighbourhood_details.html',{'hood':neighbourhood,'business':business})
   
 @login_required  
 def profile(request,username):

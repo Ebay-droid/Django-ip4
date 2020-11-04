@@ -3,41 +3,43 @@
 {%load bootstrap4%}
 
 
-<h1>Register:</h1>
 
 <div class="container ">
 <div class="row">
   <div class="col-md-3"></div>
   <div class="col-md-6">
   
-    
-    <form method ="POST" action="" class="form-group" >
+    <div class="card"> 
+    <form method ="POST" action="" class="form" >
 
       {% csrf_token %}
-      <div class="card">
-        <div class="form-control">
+      
+        <h1>Register:</h1>
+
+        <div class="form-group">
           {{form.username.label}}
           {{form.username}}
         </div>
-        <div class="form-control">
+        <div class="form-group">
           {{form.email.label}}
           {{form.email}}
         </div>
-        <div class="form-control">
+        <div class="form-group">
           {{form.password1.label}}
           {{form.password1}}
         </div>
-        <div class="form-control">
+        <div class="form-group">
           {{form.password2.label}}
           {{form.password2}}
         </div>
-        <div class="form-control"></div>
+        
    
         <input class="btn btn-amber" type="submit" name= "Create user">
 
-      </div>
+     
  
     </form>
+  </div>
   </div>
   <div class="col-md3"></div>
 </div>

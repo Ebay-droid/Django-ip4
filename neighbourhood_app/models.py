@@ -19,8 +19,8 @@ class Neighbourhood(models.Model):
     ('Parkie', 'Parkland'),
   )
   name = models.CharField(max_length=200,choices=CHOICES)
-  location = models.CharField(max_length=200)
-  occupants_count =models.AutoField(primary_key=True)
+  location = models.CharField(max_length=200, default='Kenya')
+  occupants_count =models.IntegerField(default=0)
   admin = models.ForeignKey(User, on_delete=models.CASCADE, related_name='admin_name', default=1)
   def save_neighbourhood(self):
     self.save()
@@ -65,10 +65,9 @@ class Business(models.Model) :
 class  Profile(models.Model):
   profile_pic = CloudinaryField('image')
   Bio = models.TextField()
-  email = models.EmailField()
   phone_number = models.IntegerField(null=True)
-  user = models.ForeignKey(User,on_delete=models.CASCADE,default='')
-  neighbourhood = models.ForeignKey(Neighbourhood,on_delete=models.CASCADE,default='')  
+  user = models.ForeignKey(User,on_delete=models.CASCADE, )
+  neighbourhood = models.ForeignKey(Neighbourhood,on_delete=models.CASCADE,)  
 
   
   def __str__(self):
