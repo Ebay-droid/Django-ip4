@@ -56,11 +56,13 @@ def logoutUser(request):
 # @allowed_user(allowed_roles=['__all__'])
 @login_required(login_url='login')
 def index(request):
-  return render(request,'index.html')
+  neighbourhood = Neighbourhood.objects.all()
+  
+  return render(request,'index.html',{'hood':neighbourhood})
 
 
 @login_required(login_url='login')
-@allowed_user(allowed_roles=['user'])
+# @allowed_user(allowed_roles=['user'])
   
 def user_profile(request, username):
   user = get_object_or_404(User,username=username)  
@@ -81,10 +83,11 @@ def user_profile(request, username):
   return render(request, 'new_profile.html',{'user':user,'form':ProfileForm})   
 
 @login_required(login_url='login')
-@allowed_user(allowed_roles=['user','admin'])
+# @allowed_user(allowed_roles=['user','admin'])
 def hood_details(request):
+  neighbourhood = Neighbourhood.objects.all()
   
-  return render (request, 'neighbourhood_details.html')
+  return render (request, 'neighbourhood_details.html',{'hood':neighbourhood})
   
 @login_required  
 def profile(request,username):
@@ -93,3 +96,5 @@ def profile(request,username):
 
   
   return render(request, 'profile.html',{'user':user,'profile':profile}) 
+
+
