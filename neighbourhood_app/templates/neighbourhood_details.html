@@ -1,12 +1,22 @@
 {%include 'base.html'%}
 {%load static%}
 {%load bootstrap4%}
+{%block styles%}
+  <link rel="stylesheet" href="{% static 'css/style.css'%}">
+{%endblock%}
 {%block content%}
 <div class="container">
   <div class="row">
     
     <div class="col-md-3"> 
       <h2>Emergency Contacts:</h2>
+      <p>Police : {{hood.contact_police}}</p>
+      <p>Health : {{hood.contact_health}}</p>
+      <p>Fire_dept  : {{hood.contact_fire}}</p>
+
+
+      <h2>Business Details</h2>
+
     </div>
     <div class="col-md-6">
       <!-- Card -->
@@ -25,9 +35,9 @@
   <div class="card-body card-body-cascade text-center">
 
     <!-- Title -->
-    <h4 class="card-title"><strong>{{item.name}}</strong></h4>
+    <h4 class="card-title"><strong>{{hood.name}}</strong></h4>
     <!-- Subtitle -->
-    <h6 class="font-weight-bold indigo-text py-2">{{item.location}}</h6>
+    <h6 class="font-weight-bold indigo-text py-2">{{hood.location}}</h6>
     <!-- Text -->
       <form action="" method="POST" enctype="multipart/form-data" >
       {%csrf_token%}
@@ -48,9 +58,9 @@
       <h2>Posts: </h2>
 {%for post in posts%}
 <div class="media">
-  <img class="d-flex mr-3" src="{{post.profile.profile_pic.url}}" alt="Generic placeholder image">
+  <img class="d-flex mr-3 img-fluid " id="pic" src="{{post.profile.profile_pic.url}}" alt="Generic placeholder image">
   <div class="media-body">
-    <h5 class="mt-0 font-weight-bold">{{post.user.username}}</h5>
+    <h5 class="mt-0 font-weight-bold">{{post.profile.user.username}}</h5>
     {{post.post}}
   </div>
 </div>

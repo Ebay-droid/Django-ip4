@@ -18,7 +18,7 @@ class  CreateUserForm(UserCreationForm):
 class NeighbourhoodForm(forms.ModelForm):
   class Meta:
     model = Neighbourhood
-    fields = ['name']    
+    exclude = ['admin']    
     
     
 class PostForm(forms.ModelForm):

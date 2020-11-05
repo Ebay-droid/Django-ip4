@@ -5,8 +5,10 @@ Hood-watch is an application which allows a user to be in the loop ono the happe
 
 ## Author:
 Name : Ebenezer Gakuo
+
 email: gakuoebenezer@gmail.com
-git-hub :Ebaydroid
+
+git-hub : [Ebaydroid](https://github.com/Ebay-droid/)
 
 ## Installation
 
@@ -14,6 +16,7 @@ git-hub :Ebaydroid
 THis application is created in Python Language by use of the Django framework.
 Also used in this project was Bootstrap4 as well as material design
 
-## Licence :
+## Licence : 
+[Licence](https://raw.githubusercontent.com/Ebay-droid/Django-ip4/master/LICENSE)
 
 ##

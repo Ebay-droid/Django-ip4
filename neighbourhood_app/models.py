@@ -8,7 +8,7 @@ from django.contrib.auth.models import User
 
 
 class Neighbourhood(models.Model):
-  CHOICES = (
+  HOODS = (
     (' Kikuyu ', 'Kikuyu'),
     ('Dago', 'Dagoretti'),
     ('Karen', 'Karen'),
@@ -18,10 +18,13 @@ class Neighbourhood(models.Model):
     ('Westie', 'Westland'),
     ('Parkie', 'Parkland'),
   )
-  name = models.CharField(max_length=200,choices=CHOICES)
+  name = models.CharField(max_length=200,choices=HOODS)
   location = models.CharField(max_length=200, default='Kenya')
   occupants_count =models.IntegerField(default=0)
   admin = models.ForeignKey(User, on_delete=models.CASCADE, related_name='admin_name', default=1)
+  contact_police = models.CharField(max_length=20,default='')
+  contact_health = models.CharField(max_length=20, default='')
+  contact_fire = models.CharField(max_length=20, default='')
   def save_neighbourhood(self):
     self.save()
   
@@ -31,6 +34,13 @@ class Neighbourhood(models.Model):
   def find_by_id(self,pk):
     hood =self.objects.get(pk=pk)
     return Neighbourhood.objects.filter(name=hood)
+  
+  @classmethod
+  def update_neighbourhood(cls, id, value):
+      cls.objects.filter(id=id).update(population=value)
+  @classmethod
+  def update_count(cls, id, value):
+      cls.objects.filter(id=id).update(population=value).count()
   
   def __str__(self):
     return self.name        
@@ -66,7 +76,7 @@ class  Profile(models.Model):
   profile_pic = CloudinaryField('image')
   Bio = models.TextField()
   phone_number = models.IntegerField(null=True)
-  user = models.ForeignKey(User,on_delete=models.CASCADE, )
+  user = models.OneToOneField(User,on_delete=models.CASCADE, )
   neighbourhood = models.ForeignKey(Neighbourhood,on_delete=models.CASCADE,)  
 
   
@@ -85,5 +95,5 @@ class Post(models.Model):
 
 
   def __str__(self):
-    return self.user.username
+    return self.profile.user.username
   

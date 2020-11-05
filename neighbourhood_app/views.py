@@ -95,15 +95,16 @@ def user_profile(request, username):
 
 @login_required(login_url='login')
 # @allowed_user(allowed_roles=['user','admin'])
-def hood_details(request,neighbourhood_name):
-  neighbourhood= get_object_or_404(Neighbourhood,name=neighbourhood_name)
-  posts = Post.objects.filter(neighbourhood = neighbourhood)
+def hood_details(request,id):
+  neighbourhood= get_object_or_404(Neighbourhood,pk=id)
+  posts = Post.objects.filter(neighbourhood=neighbourhood)
+  profile = Profile.objects.get(user=request.user)
   if request.method == 'POST':
     form = PostForm(request.POST, request.FILES)
     if form.is_valid():
       post = form.save(commit=False)
       post.neighbourhood = neighbourhood
-      
+      post.profile = profile
       post.save()
       
       return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
