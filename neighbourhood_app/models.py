@@ -90,7 +90,7 @@ class  Profile(models.Model):
 class Post(models.Model):
   post = models.CharField(max_length=300)
   neighbourhood = models.ForeignKey(Neighbourhood,on_delete=models.CASCADE,)    
-  image = CloudinaryField('images')
+  image = CloudinaryField('images', null=True)
   profile = models.ForeignKey(Profile,on_delete=models.CASCADE,default='')
 
 

@@ -68,7 +68,7 @@ ALLOWED_HOSTS = ['.localhost','.herokuapp.com','127.0.0.1']
 
 INSTALLED_APPS = [
     'neighbourhood_app',
-    'rest_framework',
+    
     'bootstrap4',
     'cloudinary',
     'django.contrib.admin',
