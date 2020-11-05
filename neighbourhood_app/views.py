@@ -121,4 +121,14 @@ def profile(request,username):
   
   return render(request, 'profile.html',{'user':user,'profile':profile}) 
 
-
+@login_required
+def search_project(request):
+  if 'business' in request.GET and request.GET["business"]:
+    search_term = request.GET.get('business')
+    searched_business = Business.search_business(search_term)
+    message = f"{search_term}"
+    
+    return render (request, 'search.html',{"message":message, "business":searched_business})
+  else:
+    message = "Have you searched for any term?"
+    return render (request,'search.html',{"message":message})

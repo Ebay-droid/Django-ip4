@@ -11,8 +11,8 @@ urlpatterns = [
     path('hood/<int:id>/', views.hood_details, name='hood'),
     path('profile/<username>/',views.profile, name='profile'),
     path('welcome/',views.welcome, name='welcome'),
-    # path('hoods/',views.hoods, name='all_hoods'),
-    # path('join_hood/<int:id>',views.join_neighbourhood, name='join_hood'),
+    path('search/', views.search_project, name = 'search_business'),
+
     
     
 ]
