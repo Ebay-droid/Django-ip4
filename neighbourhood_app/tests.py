@@ -21,9 +21,10 @@ class NeighbourhoodTest(TestCase):
 
   def test_save(self):
     self.test.save_project()
-  saved = Project.objects.all()
-  self.assertTrue(len(saved)>0)
-        Project.objects.all().delete()  Project.objects.all().delete()
+    saved = Project.objects.all()
+    self.assertTrue(len(saved)>0)
+    Project.objects.all().delete()  Project.objects.all().delete()
+    
   def test_delete(self):
     self.test.save_project()
     self.test.delete_project()

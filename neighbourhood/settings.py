@@ -61,7 +61,7 @@ DATABASES['default'].update(db_from_env)
 
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['.localhost','.herokuapp.com','127.0.0.1']
 
 
 # Application definition
