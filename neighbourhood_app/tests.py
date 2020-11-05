@@ -20,16 +20,20 @@ class NeighbourhoodTest(TestCase):
     self.assertTrue(isinstance(self.test,Neighbourhood))  
 
   def test_save(self):
-    self.test.save_project()
-    saved = Project.objects.all()
+    self.test.save_neighbourhood()
+    saved = Neighbourhood.objects.all()
     self.assertTrue(len(saved)>0)
-    Project.objects.all().delete()  Project.objects.all().delete()
+    
     
   def test_delete(self):
-    self.test.save_project()
-    self.test.delete_project()
-    deleted = Project.objects.all()
+    self.test.save_neighbourhood()
+    self.test.delete_neighbourhood()
+    deleted = Neighbourhood.objects.all()
     self.assertTrue(len(deleted)== 0) 
+    
+    
+  def test_find_by_id(self):
+    self.test.sa  
 
-  def tearDown(self):
-    Project.objects.all().delete()
+  # def tearDown(self):
+  #   Project.objects.all().delete()
