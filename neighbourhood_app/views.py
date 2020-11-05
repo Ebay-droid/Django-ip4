@@ -98,6 +98,7 @@ def user_profile(request, username):
 def hood_details(request,id):
   neighbourhood= get_object_or_404(Neighbourhood,pk=id)
   posts = Post.objects.filter(neighbourhood=neighbourhood)
+  biz = Business.objects.filter(neighbourhood=neighbourhood)
   profile = Profile.objects.get(user=request.user)
   if request.method == 'POST':
     form = PostForm(request.POST, request.FILES)
@@ -110,7 +111,7 @@ def hood_details(request,id):
       return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
       
     
-  return render (request, 'neighbourhood_details.html',{'hood':neighbourhood,'form':PostForm,'posts':posts})
+  return render (request, 'neighbourhood_details.html',{'hood':neighbourhood,'form':PostForm,'posts':posts, 'biz':biz})
   
 @login_required  
 def profile(request,username):

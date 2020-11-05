@@ -16,7 +16,10 @@
 
 
       <h2>Business Details</h2>
-
+      {%for item in biz%}
+      <p>Name: {{biz.name}}</p>
+      <p>Address: {{biz.address}}</p>
+      {%endfor%}
     </div>
     <div class="col-md-6">
       <!-- Card -->
